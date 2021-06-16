@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split as tsp
 
 
 class Dataset(object):
@@ -25,8 +26,22 @@ class Dataset(object):
 		assert set(labels).intersection(landmarks.columns) == set(labels), "labels contain invalid entries"
 
 		null_data_rows = set()
-		for label in labels:
-			null_data_rows.update(landmarks[landmarks[label].isnull()].index)
-		null_data_rows = list(null_data_rows)
-		
-		return np.delete(images, null_data_rows, axis = 0), landmarks.drop(null_data_rows)
+		if len(labels) == 0:
+			null_data_rows = landmarks[landmarks.isna().any(axis = 1)].index
+		else:
+			for label in labels:
+				null_data_rows.update(landmarks[landmarks[label].isnull()].index)
+			null_data_rows = list(null_data_rows)
+
+		return np.delete(images, null_data_rows, axis = 0), landmarks.drop(null_data_rows).reset_index(drop = True)
+
+	@staticmethod
+	def train_test_split(X, Y, train_size = None, test_size = 0.2):
+		'''
+			Returns: Xtrain, Xtest, Ytrain, Ytest
+		'''
+		assert isinstance(X, np.ndarray)
+		assert isinstance(Y, np.ndarray)
+		assert X.shape[0] == Y.shape[0]
+
+		return tsp(X, Y, train_size = train_size, test_size = test_size) 
