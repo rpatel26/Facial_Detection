@@ -8,14 +8,13 @@ class ComputerVision(object):
 	def __init__(self):
 		pass
 
-	def mark_center(self, image, center_x, center_y, color = (255,0,0), radius = 1, thickness = 1):
+	def mark_center(self, image, center_x, center_y, color = (255,0,0), thickness = 1, radius = 1):
 		assert isinstance(image, np.ndarray)
 		assert len(image.shape) == 2	
 
 		if not isinstance(image[0][0], np.float32):
 			image = np.float32(image)
 		return cv2.circle(image, (int(center_x), int(center_y)), radius, color, thickness)
-	
 
 	def show_image(self, image):
 		assert isinstance(image, np.ndarray)
