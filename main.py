@@ -22,21 +22,15 @@ def main():
 	# cv.show_image(img)
 
 	model = Models()
-	# keypoint_model = model.build_model()
-	# print("model: ", keypoint_model.summary())
 
 	cap = cv2.VideoCapture(0)
-	eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
-	face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-
 
 	while True:
 		ret, frame = cap.read()
 
-		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-		# model.haarcascade_eye_detector(gray, frame)
-		model.haarcascade_face_detector(gray, frame)
-		# model.haarcascade_eye_and_face_detector(gray, frame)
+		# model.haarcascade_eye_detector(frame)
+		# model.haarcascade_face_detector(frame)
+		model.haarcascade_eye_and_face_detector(frame)
 
 		cv2.imshow('frame', frame)
 

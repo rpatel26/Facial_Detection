@@ -27,11 +27,12 @@ class Models(object):
 		# model.compile(loss='mean_squared_error', optimizer=sgd)	
 		# return model
 
-	def haarcascade_eye_detector(self, gray_image, rgb_image):
-		assert isinstance(gray_image, np.ndarray)
+	def haarcascade_eye_detector(self, rgb_image, gray_image = None):
 		assert isinstance(rgb_image, np.ndarray)
-		assert len(gray_image.shape) == 2
 		assert len(rgb_image.shape) == 3
+
+		if gray_image is None:
+			gray_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2GRAY)
 
 		face_loc = self.face_cascade.detectMultiScale(gray_image, scaleFactor = 1.1, minNeighbors = 5)
 
@@ -45,21 +46,23 @@ class Models(object):
 				cv2.rectangle(face_img_rgb, (ey_x, ey_y), (ey_x + ey_dx, ey_y + ey_dy), (0, 255, 0), 3)
 
 
-	def haarcascade_face_detector(self, gray_image, rgb_image):
-		assert isinstance(gray_image, np.ndarray)
+	def haarcascade_face_detector(self, rgb_image, gray_image = None):
 		assert isinstance(rgb_image, np.ndarray)
-		assert len(gray_image.shape) == 2
 		assert len(rgb_image.shape) == 3
+
+		if gray_image is None:
+			gray_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2GRAY)
 
 		face_loc = self.face_cascade.detectMultiScale(gray_image, scaleFactor = 1.1)
 		for x, y, dx, dy in face_loc:
 			cv2.rectangle(rgb_image, (x, y), (x + dx, y + dy), (255, 0, 0), 3)	
 
-	def haarcascade_eye_and_face_detector(self, gray_image, rgb_image):
-		assert isinstance(gray_image, np.ndarray)
+	def haarcascade_eye_and_face_detector(self, rgb_image, gray_image = None):
 		assert isinstance(rgb_image, np.ndarray)
-		assert len(gray_image.shape) == 2
 		assert len(rgb_image.shape) == 3
+
+		if gray_image is None:
+			gray_image = cv2.cvtColor(rgb_image, cv2.COLOR_BGR2GRAY)
 
 		face_loc = self.face_cascade.detectMultiScale(gray_image, scaleFactor = 1.1, minNeighbors = 5)
 
